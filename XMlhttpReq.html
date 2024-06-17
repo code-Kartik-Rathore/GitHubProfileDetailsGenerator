@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API</title>
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-color: rgb(54, 53, 53);
+            color: aliceblue;
+        }
+        .card{
+            border: 1px solid black;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            align-items: center;
+            text-align: center;
+        }
+        .image{
+            margin: 5px;
+            width: 200px;
+            height: 200px
+            
+        }
+    </style>
+</head>
+<body>
+    
+
+
+    <div class="card">
+        <label for="userID" class="userID">Github User-ID</label>
+        <input type="text" class="text">
+        <div class="img">
+            <img src="" alt="Not Found" class="image">
+        </div>
+        <div class="followers">
+            <p class="follower">
+
+            </p>
+            <p class="following">
+
+            </p>
+            <p class="link">
+
+            </p>
+        </div>
+    </div>
+    <button class="submit">Submit</button>
+
+
+</body>
+<script>
+    const btn = document.querySelector(".submit")
+    btn.addEventListener('click', (e)=>{
+        e.preventDefault()
+        const userID = String(document.querySelector(".text").value)
+        const requestUrl = "https://api.github.com/users/" + userID
+        console.log(requestUrl)
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET', requestUrl)
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == 4){
+                const data = JSON.parse(this.responseText)
+                document.querySelector(".image").setAttribute("src", `${data.avatar_url}`)
+                document.querySelector(".follower").innerHTML = `Follower : ${data.followers}`
+                document.querySelector(".following").innerHTML = `Following: ${data.following}`
+            }
+        }
+
+        xhr.send()
+    })
+
+
+
+
+</script>
+</html>
